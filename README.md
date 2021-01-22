@@ -20,3 +20,5 @@ If your Docker host has [AppArmor](https://wiki.ubuntu.com/AppArmor) activated, 
 1. Load this profile into the kernel with [`apparmor_parser`](http://manpages.ubuntu.com/manpages/xenial/man8/apparmor_parser.8.html):
 
        sudo apparmor_parser -r -W /path/to/file/from/previous/step
+
+1. If profile does not survive reboot, place it at `/etc/apparmor.d/`.
