@@ -2,8 +2,8 @@ version: '2.4'
 
 services:
   nfs-server:
-    image: ${NFS_SERVER_IMAGE_NAME:-pedroetb/nfs-server}:${NFS_SERVER_IMAGE_TAG:-latest}
-    container_name: ${NFS_SERVER_CONTAINER_NAME:-nfs-server}
+    image: ${IMAGE_NAME:-pedroetb/nfs-server}:${IMAGE_TAG:-latest}
+    container_name: ${CONTAINER_NAME:-nfs-server}
     environment:
       NFS_PORT:
       NFS_VERSION:
@@ -19,40 +19,10 @@ services:
     security_opt:
       - apparmor=nfs-server
     restart: always
-    cpus: '${NFS_SERVER_CPUS:-0.5}'
-    mem_limit: ${NFS_SERVER_MEM_LIMIT:-128M}
-    mem_reservation: ${NFS_SERVER_MEM_RESERVATION:-64M}
-
-  nfs-startup:
-    image: ${NFS_STARTUP_IMAGE_NAME:-alpine}:${NFS_STARTUP_IMAGE_TAG:-latest}
-    container_name: ${NFS_STARTUP_CONTAINER_NAME:-nfs-startup}
-    entrypoint: sh -c
-    command:
-      - >
-        for directoryDefinition in ${NFS_STARTUP_DIRS};
-        do
-          directoryName=$$(echo "$${directoryDefinition}" | cut -d ':' -f 1);
-          directoryUid=$$(echo "$${directoryDefinition}:" | cut -d ':' -f 2);
-          directoryGid=$$(echo "$${directoryDefinition}:" | cut -d ':' -f 3);
-          directoryPath=${NFS_ROOT_PATH}/$${directoryName};
-          mkdir -p $${directoryPath};
-          if [ ! -z $${directoryUid} ];
-          then
-            chown $${directoryUid} $${directoryPath};
-          fi;
-          if [ ! -z $${directoryGid} ];
-          then
-            chgrp $${directoryGid} $${directoryPath};
-          fi;
-        done
-    network_mode: host
-    volumes:
-      - data-vol:${NFS_ROOT_PATH}
-    restart: on-failure
-    cpus: '${NFS_STARTUP_CPUS:-0.1}'
-    mem_limit: ${NFS_STARTUP_MEM_LIMIT:-16M}
-    mem_reservation: ${NFS_STARTUP_MEM_RESERVATION:-6M}
+    cpus: '${CPUS:-0.5}'
+    mem_limit: ${MEM_LIMIT:-128M}
+    mem_reservation: ${MEM_RESERVATION:-64M}
 
 volumes:
   data-vol:
-    name: ${DATA_VOL_NAME}
+    name: ${DATA_VOL_NAME:-nfs-data-vol}
