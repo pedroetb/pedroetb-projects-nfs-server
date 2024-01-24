@@ -1,7 +1,7 @@
 include:
   - project: 'pedroetb-projects/gitlab-ci-templates'
     ref: master
-    file: '/deployment.yml'
+    file: '/deployment-service/docker-deploy.yml'
 
 stages:
   - deploy
