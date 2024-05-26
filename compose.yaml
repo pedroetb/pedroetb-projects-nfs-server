@@ -7,7 +7,13 @@ services:
       NFS_VERSION:
       NFS_DISABLE_VERSION_3: 1
       NFS_EXPORT_0: ${NFS_ROOT_PATH} ${NFS_ROOT_ADDR}(${NFS_ROOT_OPTS})
-    network_mode: host
+    networks:
+      nfs-net:
+    ports:
+      - target: ${NFS_PORT}
+        published: ${NFS_PORT}
+        protocol: tcp
+        mode: ${NFS_PORT_MODE:-host}
     volumes:
       - data-vol:${NFS_ROOT_PATH}
       - /lib/modules:/lib/modules:ro
@@ -20,6 +26,12 @@ services:
     cpus: '${CPUS:-1}'
     mem_limit: ${MEM_LIMIT:-256M}
     mem_reservation: ${MEM_RESERVATION:-128M}
+
+networks:
+  nfs-net:
+    name: ${NFS_NET_NAME:-nfs-net}
+    driver: ${NFS_NET_DRIVER:-overlay}
+    attachable: ${NFS_NET_ATTACHABLE:-true}
 
 volumes:
   data-vol:
