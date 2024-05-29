@@ -29,7 +29,7 @@ services:
 
 networks:
   nfs-net:
-    name: ${NFS_NET_NAME:-nfs-net}
+    name: ${NFS_NET_NAME:-nfs-server-net}
     driver: ${NFS_NET_DRIVER:-overlay}
     attachable: ${NFS_NET_ATTACHABLE:-true}
 
