@@ -6,6 +6,7 @@ services:
       NFS_PORT:
       NFS_VERSION:
       NFS_DISABLE_VERSION_3: 1
+      NFS_SERVER_THREAD_COUNT:
       NFS_EXPORT_0: ${NFS_ROOT_PATH} ${NFS_ROOT_ADDR}(${NFS_ROOT_OPTS})
     network_mode: host
     volumes:
